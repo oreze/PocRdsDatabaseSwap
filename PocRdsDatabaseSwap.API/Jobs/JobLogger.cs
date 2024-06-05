@@ -8,34 +8,21 @@ public class JobLogger(ILogger<JobLogger> logger, IServiceProvider serviceProvid
 {
     private readonly ILogger<JobLogger> _logger = logger ?? throw new ArgumentException(nameof(logger));
     private readonly IServiceProvider _serviceProvider = serviceProvider ?? throw new ArgumentException(nameof(serviceProvider));
-    
+
     private Timer _timer;
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Job logger is starting");
 
-        _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
+        _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(99999));
 
         return Task.CompletedTask;
-    }
-
-    private void DoWork(object state)
-    {
-        var guid = Guid.NewGuid();
-        _logger.LogInformation("Logging GUID: {Guid}", guid);
-
-        using var scope = _serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        
-        var log = new LogEntity()
-        {
-            Body = dbContext.Database.GetDbConnection().Database,
-            LogDate = DateTime.UtcNow
-        };
-
-        dbContext.Logs.Add(log);
-        dbContext.SaveChanges();
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
@@ -47,8 +34,21 @@ public class JobLogger(ILogger<JobLogger> logger, IServiceProvider serviceProvid
         return Task.CompletedTask;
     }
 
-    public void Dispose()
+    private void DoWork(object state)
     {
-        _timer?.Dispose();
+        var guid = Guid.NewGuid();
+        _logger.LogInformation("Logging GUID: {Guid}", guid);
+
+        using var scope = _serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        var log = new LogEntity
+        {
+            Body = dbContext.Database.GetDbConnection().Database,
+            LogDate = DateTime.UtcNow
+        };
+
+        dbContext.Logs.Add(log);
+        dbContext.SaveChanges();
     }
 }

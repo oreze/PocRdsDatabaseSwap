@@ -5,18 +5,20 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
-      <UserSecretsId>26d571fe-f9e6-4c03-acc3-424284a0c04a</UserSecretsId>
-  </PropertyGroup>
+        <UserSecretsId>26d571fe-f9e6-4c03-acc3-424284a0c04a</UserSecretsId>
+    </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+        <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.300"/>
+        <PackageReference Include="AWSSDK.RDS" Version="3.7.313.8"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
 </Project>
